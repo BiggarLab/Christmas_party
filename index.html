@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Christmas Party with Santa</title>
+<meta name="description" content="You're invited to a Christmas party with a visit from Santa. Saturday, December 19, 5:30 to 9 PM.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Great+Vibes&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --evergreen: #12352a;
+    --evergreen-deep: #0a2219;
+    --berry: #8e1b24;
+    --berry-deep: #6c121a;
+    --gold: #b8935a;
+    --gold-light: #d9bf8c;
+    --paper: #fbf7ef;
+    --ink: #2b2522;
+    --muted: #6f655d;
+    --rule: #e3d6bf;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    font-family: 'Lato', system-ui, sans-serif;
+    color: var(--ink);
+    background:
+      radial-gradient(ellipse at 50% 0%, #1d4a3b 0%, var(--evergreen) 45%, var(--evergreen-deep) 100%);
+    min-height: 100vh;
+    overflow-x: hidden;
+    line-height: 1.55;
+  }
+  #snow { position: fixed; inset: 0; pointer-events: none; z-index: 1; }
+
+  .wrap {
+    position: relative; z-index: 2;
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 48px 16px 64px;
+  }
+
+  /* Invitation card */
+  .card {
+    background: var(--paper);
+    border-radius: 6px;
+    padding: 14px;
+    box-shadow: 0 30px 70px rgba(0,0,0,.45);
+  }
+  .card-inner {
+    border: 1px solid var(--gold);
+    outline: 1px solid var(--gold-light);
+    outline-offset: -7px;
+    padding: 48px 36px 40px;
+    text-align: center;
+  }
+
+  .eyebrow {
+    font-size: .78rem;
+    letter-spacing: .32em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 700;
+  }
+  .script {
+    font-family: 'Great Vibes', cursive;
+    font-size: clamp(2.2rem, 8vw, 3rem);
+    color: var(--berry);
+    line-height: 1;
+    margin-top: 18px;
+  }
+  h1 {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-weight: 700;
+    font-size: clamp(2.6rem, 10vw, 4rem);
+    line-height: 1;
+    color: var(--evergreen);
+    letter-spacing: .01em;
+  }
+  .ornament {
+    display: flex; align-items: center; justify-content: center; gap: 14px;
+    margin: 22px auto;
+    color: var(--gold);
+    max-width: 260px;
+  }
+  .ornament::before, .ornament::after {
+    content: ""; flex: 1; height: 1px; background: var(--gold);
+  }
+  .ornament svg { width: 18px; height: 18px; }
+
+  .lede {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 1.3rem;
+    font-style: italic;
+    color: var(--muted);
+    max-width: 440px;
+    margin: 0 auto;
+  }
+
+  /* Santa feature */
+  .santa {
+    margin: 36px -36px;
+    background: var(--berry);
+    background: linear-gradient(160deg, var(--berry) 0%, var(--berry-deep) 100%);
+    color: #fff;
+    padding: 36px 36px 32px;
+  }
+  .santa .eyebrow { color: var(--gold-light); }
+  .santa h2 {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-weight: 700;
+    font-size: clamp(2rem, 7vw, 2.6rem);
+    line-height: 1.1;
+    margin: 8px 0 20px;
+  }
+  .santa-photo {
+    max-width: 420px;
+    margin: 0 auto;
+    padding: 8px;
+    background: #fff;
+    border-radius: 3px;
+    box-shadow: 0 14px 30px rgba(0,0,0,.35);
+  }
+  .santa-photo img { display: block; width: 100%; height: auto; }
+  .santa-time {
+    display: inline-block;
+    margin-top: 22px;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 1.6rem;
+    font-weight: 600;
+    border-top: 1px solid var(--gold-light);
+    border-bottom: 1px solid var(--gold-light);
+    padding: 2px 18px;
+  }
+  .santa p {
+    margin-top: 14px;
+    font-size: 1.02rem;
+    opacity: .92;
+    max-width: 420px;
+    margin-left: auto; margin-right: auto;
+  }
+  .santa-list {
+    list-style: none;
+    display: flex; flex-wrap: wrap; justify-content: center;
+    gap: 8px 10px;
+    margin-top: 18px;
+  }
+  .santa-list li {
+    font-size: .8rem;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    font-weight: 700;
+    border: 1px solid rgba(255,255,255,.4);
+    border-radius: 999px;
+    padding: 6px 14px;
+  }
+
+  /* Details */
+  .details {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-top: 1px solid var(--rule);
+    border-left: 1px solid var(--rule);
+    text-align: left;
+  }
+  .detail {
+    padding: 18px 18px 16px;
+    border-right: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+  }
+  .detail .label {
+    display: flex; align-items: center; gap: 8px;
+    font-size: .72rem; letter-spacing: .22em; text-transform: uppercase;
+    font-weight: 700; color: var(--gold);
+    margin-bottom: 4px;
+  }
+  .detail .label svg { width: 15px; height: 15px; }
+  .detail .value {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 1.35rem; font-weight: 600; color: var(--evergreen);
+    line-height: 1.2;
+  }
+  .detail .note { font-size: .88rem; color: var(--berry); margin-top: 4px; font-weight: 700; }
+  .detail.wide { grid-column: 1 / -1; }
+
+  /* Buttons */
+  .actions {
+    display: flex; flex-wrap: wrap; gap: 12px; justify-content: center;
+    margin-top: 30px;
+  }
+  .btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-family: 'Lato', sans-serif;
+    font-size: .82rem; font-weight: 700;
+    letter-spacing: .18em; text-transform: uppercase;
+    text-decoration: none;
+    padding: 14px 24px;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: background .2s, color .2s, border-color .2s;
+  }
+  .btn svg { width: 16px; height: 16px; }
+  .btn-primary { background: var(--evergreen); color: #fff; border: 1px solid var(--evergreen); }
+  .btn-primary:hover { background: var(--evergreen-deep); }
+  .btn-outline { background: transparent; color: var(--evergreen); border: 1px solid var(--evergreen); }
+  .btn-outline:hover { background: var(--evergreen); color: #fff; }
+  .rsvp-by { margin-top: 12px; font-size: .9rem; color: var(--muted); }
+  .rsvp-by b { color: var(--berry); }
+
+  /* Countdown */
+  .countdown {
+    display: flex; justify-content: center; gap: 0;
+    margin: 36px auto 6px;
+    max-width: 380px;
+  }
+  .countdown div { flex: 1; padding: 0 6px; }
+  .countdown div + div { border-left: 1px solid var(--rule); }
+  .countdown b {
+    display: block;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 2.2rem; font-weight: 600; line-height: 1;
+    color: var(--evergreen);
+    font-variant-numeric: tabular-nums;
+  }
+  .countdown small {
+    font-size: .66rem; letter-spacing: .22em; text-transform: uppercase; color: var(--muted);
+  }
+  .count-label { font-size: .85rem; color: var(--muted); font-style: italic; }
+
+  .closing {
+    font-family: 'Great Vibes', cursive;
+    font-size: 2.1rem; color: var(--berry);
+    margin-top: 30px;
+  }
+
+  .grownup-link {
+    margin-top: 26px;
+    background: none; border: none;
+    font-family: 'Lato', sans-serif;
+    font-size: .78rem; letter-spacing: .2em; text-transform: uppercase; font-weight: 700;
+    color: var(--evergreen);
+    border-bottom: 1px solid var(--gold);
+    padding-bottom: 3px;
+    cursor: pointer;
+  }
+  .grownup-link:hover { color: var(--berry); }
+
+  .fine-print {
+    margin-top: 28px;
+    font-size: .74rem; font-style: italic; color: var(--muted); opacity: .85;
+  }
+
+  /* Grown-ups panel */
+  .modal {
+    position: fixed; inset: 0; z-index: 20;
+    background: rgba(10,34,25,.8);
+    display: none; align-items: center; justify-content: center;
+    padding: 16px;
+  }
+  .modal.open { display: flex; }
+  .modal-card {
+    background: var(--paper);
+    max-width: 520px; width: 100%; max-height: 90vh; overflow-y: auto;
+    padding: 12px; border-radius: 6px; position: relative;
+  }
+  .modal-inner { border: 1px solid var(--gold); padding: 32px 26px 22px; }
+  .modal h3 {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 2rem; font-weight: 700; color: var(--evergreen);
+    text-align: center; line-height: 1.1;
+  }
+  .hush { text-align: center; font-style: italic; color: var(--muted); font-size: .92rem; margin: 6px 0 18px; }
+  .gu-item { padding: 14px 0; border-top: 1px solid var(--rule); }
+  .gu-item b {
+    display: block;
+    font-size: .74rem; letter-spacing: .2em; text-transform: uppercase;
+    color: var(--berry); margin-bottom: 4px;
+  }
+  .gu-item p { font-size: .97rem; }
+  .gu-item a { color: var(--evergreen); font-weight: 700; }
+  .close {
+    position: absolute; top: 20px; right: 22px;
+    background: none; border: none; font-size: 1.4rem; line-height: 1;
+    cursor: pointer; color: var(--muted);
+  }
+  .close:hover { color: var(--ink); }
+
+  @media (max-width: 480px) {
+    .wrap { padding-top: 24px; }
+    .card { padding: 10px; }
+    .card-inner { padding: 36px 20px 32px; }
+    .santa { margin: 30px -20px; padding: 30px 20px 26px; }
+    .details { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<canvas id="snow"></canvas>
+
+<div class="wrap">
+  <div class="card">
+    <div class="card-inner">
+
+      <p class="eyebrow">You're Invited</p>
+      <p class="script">Join us for</p>
+      <h1>A Christmas Party</h1>
+
+      <div class="ornament" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M12 2v20M2 12h20M5 5l14 14M19 5L5 19"/></svg>
+      </div>
+
+      <p class="lede">An evening of food, drinks, carols and good cheer for the whole family. Bring the kids and your best holiday spirit.</p>
+
+      <section class="santa">
+        <p class="eyebrow">A Special Guest</p>
+        <h2>Santa Claus is Coming</h2>
+        <div class="santa-photo">
+          <img src="santa.jpg" alt="Santa Claus peering over his glasses">
+        </div>
+        <div class="santa-time">6:30 to 8:30 PM</div>
+        <p>Straight from the North Pole to visit with the children.</p>
+        <ul class="santa-list">
+          <li>Carols</li>
+          <li>Activities</li>
+          <li>Photos</li>
+          <li>Presents</li>
+        </ul>
+      </section>
+
+      <div class="details">
+        <div class="detail">
+          <div class="label">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="16" rx="1"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
+            Date
+          </div>
+          <div class="value" id="date-text">Saturday, December 19</div>
+        </div>
+        <div class="detail">
+          <div class="label">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+            Time
+          </div>
+          <div class="value">5:30 to 9:00 PM</div>
+          <div class="note">Please arrive by 6:00</div>
+        </div>
+        <div class="detail">
+          <div class="label">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+            Place
+          </div>
+          <div class="value">223 Edgefield Terrace</div>
+        </div>
+        <div class="detail">
+          <div class="label">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M7 3v8a3 3 0 0 0 6 0V3M10 3v18M17 3c-1.7 0-3 2.2-3 5s1.3 4 3 4v9"/></svg>
+            Menu
+          </div>
+          <div class="value">Food, drinks &amp; holiday treats</div>
+        </div>
+        <div class="detail wide">
+          <div class="label">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 16V9l2-4h12l2 4v7M4 16h16M4 16v3h3v-3M17 16v3h3v-3M4 11h16"/></svg>
+            Parking
+          </div>
+          <div class="value">Please park on the street. The driveway is reserved for Santa's sleigh.</div>
+        </div>
+      </div>
+
+      <div class="actions">
+        <a class="btn btn-primary" href="mailto:yuliabiggar@gmail.com?subject=Christmas%20Party%20RSVP&body=Hi%20Yulia!%0A%0AWe're%20coming%20to%20the%20Christmas%20party!%0A%0AFamily%20name%3A%20%0ANumber%20of%20adults%3A%20%0ANumber%20of%20kids%3A%20%0AKids'%20names%20and%20ages%3A%20%0AAny%20food%20allergies%3A%20%0A">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="1"/><path d="M3 7l9 6 9-6"/></svg>
+          RSVP
+        </a>
+        <a class="btn btn-outline" href="https://www.google.com/maps/search/?api=1&query=223+Edgefield+Terrace+Ottawa+ON" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+          Directions
+        </a>
+      </div>
+      <p class="rsvp-by">Kindly reply by <b>December 5</b> to yuliabiggar@gmail.com</p>
+
+      <div class="countdown" id="countdown" aria-live="polite">
+        <div><b id="d">0</b><small>Days</small></div>
+        <div><b id="h">0</b><small>Hours</small></div>
+        <div><b id="m">0</b><small>Min</small></div>
+        <div><b id="s">0</b><small>Sec</small></div>
+      </div>
+      <p class="count-label" id="count-label">until the festivities begin</p>
+
+      <p class="closing">Merry Christmas!</p>
+
+      <button class="grownup-link" id="open-grownups">Information for parents</button>
+
+      <p class="fine-print">*Fine print: it also happens to be Kyle's 40th birthday. No gifts needed, but sympathy for his advancing age is welcome.</p>
+
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="grownups" role="dialog" aria-modal="true" aria-labelledby="gu-title">
+  <div class="modal-card">
+    <button class="close" id="close-grownups" aria-label="Close">&times;</button>
+    <div class="modal-inner">
+      <h3 id="gu-title">For the Grown-ups</h3>
+      <p class="hush">Please keep this part away from little eyes.</p>
+
+      <div class="gu-item">
+        <b>One gift per child</b>
+        <p>Please bring a small gift for each of your children, around $15 to $20, labelled with the child's name so Santa knows who it's for.</p>
+      </div>
+      <div class="gu-item">
+        <b>Drop off by December 12</b>
+        <p>Drop gifts off at 223 Edgefield Terrace by Saturday, December 12. No need to wrap them. We'll take care of that, and Santa will hand them out at the party.</p>
+      </div>
+      <div class="gu-item">
+        <b>RSVP by December 5</b>
+        <p>Email <a href="mailto:yuliabiggar@gmail.com?subject=Christmas%20Party%20RSVP">yuliabiggar@gmail.com</a> with the number of adults and children, the children's names and ages, and any food allergies.</p>
+      </div>
+      <div class="gu-item">
+        <b>Arrive by 6:00 PM</b>
+        <p>The party starts at 5:30. Santa arrives at 6:30 and stays until 8:30, so please be here by 6:00 so the kids are settled and ready.</p>
+      </div>
+      <div class="gu-item">
+        <b>Parking</b>
+        <p>Please park on the street and leave the driveway clear for Santa.</p>
+      </div>
+      <div class="gu-item">
+        <b>Bring your camera</b>
+        <p>There will be plenty of chances for photos with Santa. <a href="https://www.ottawasantaclaus.com/" target="_blank" rel="noopener">Meet our Santa</a></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Party date and start time
+  const PARTY = new Date("2026-12-19T17:30:00");
+
+  document.getElementById("date-text").textContent =
+    PARTY.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" });
+
+  // Grown-ups panel
+  const gu = document.getElementById("grownups");
+  document.getElementById("open-grownups").onclick = () => gu.classList.add("open");
+  document.getElementById("close-grownups").onclick = () => gu.classList.remove("open");
+  gu.addEventListener("click", (e) => { if (e.target === gu) gu.classList.remove("open"); });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape") gu.classList.remove("open"); });
+
+  // Countdown
+  function tick() {
+    const diff = PARTY - new Date();
+    if (diff <= 0) {
+      document.getElementById("countdown").style.display = "none";
+      document.getElementById("count-label").textContent = "The party is here. Merry Christmas!";
+      return;
+    }
+    document.getElementById("d").textContent = Math.floor(diff / 86400000);
+    document.getElementById("h").textContent = Math.floor(diff / 3600000) % 24;
+    document.getElementById("m").textContent = Math.floor(diff / 60000) % 60;
+    document.getElementById("s").textContent = Math.floor(diff / 1000) % 60;
+  }
+  tick();
+  setInterval(tick, 1000);
+
+  // Gentle falling snow
+  const canvas = document.getElementById("snow");
+  const ctx = canvas.getContext("2d");
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let flakes = [];
+  function resize() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    const count = Math.min(120, Math.floor(window.innerWidth / 9));
+    flakes = Array.from({ length: count }, () => ({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      r: Math.random() * 2.2 + 0.6,
+      speed: Math.random() * 0.6 + 0.3,
+      drift: Math.random() * 0.4 - 0.2,
+      phase: Math.random() * Math.PI * 2,
+      a: Math.random() * 0.5 + 0.35
+    }));
+  }
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    for (const f of flakes) {
+      f.y += f.speed;
+      f.phase += 0.008;
+      f.x += f.drift + Math.sin(f.phase) * 0.3;
+      if (f.y > canvas.height) { f.y = -4; f.x = Math.random() * canvas.width; }
+      if (f.x > canvas.width) f.x = 0;
+      if (f.x < 0) f.x = canvas.width;
+      ctx.fillStyle = `rgba(255,255,255,${f.a})`;
+      ctx.beginPath();
+      ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    if (!reduce) requestAnimationFrame(draw);
+  }
+  window.addEventListener("resize", resize);
+  resize();
+  draw();
+</script>
+</body>
+</html>
